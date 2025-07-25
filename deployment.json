@@ -1,0 +1,16 @@
+{
+  "addOns": {
+    "common": {
+      "name": "Demo Meet Add-on",
+      "logoUrl": "https://developers.google.com/workspace/meet/add-ons/images/meet-add-ons-icon.png"
+    },
+    "meet": {
+      "web": {
+        "sidePanelUri": "https://ceyxasm.github.io/meet-add-on-dummy/SidePanel.html",
+        "addOnOrigins": ["https://ceyxasm.github.io"],
+        "supportsScreenSharing": false,
+        "logoUrl": "https://developers.google.com/workspace/meet/add-ons/images/meet-add-ons-icon.png"
+      }
+    }
+  }
+}
