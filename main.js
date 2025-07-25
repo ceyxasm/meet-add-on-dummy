@@ -1,7 +1,7 @@
 import { meet } from '@googleworkspace/meet-addons/meet.addons';
 
 const CLOUD_PROJECT_NUMBER = '591603684522'; // Replace with your actual project number
-const MAIN_STAGE_URL = 'http://localhost:8080/MainStage.html'; // Update this based on your setup
+const MAIN_STAGE_URL = 'https://ceyxasm.github.io/meet-add-on-dummy/MainStage.html';
 
 /**
  * Prepares the add-on Side Panel Client, and adds an event to launch the

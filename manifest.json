@@ -1,6 +1,6 @@
 {
   "name": "Demo Meet Add-on",
   "logoUrl": "https://developers.google.com/workspace/meet/add-ons/images/meet-add-ons-icon.png",
-  "homepage_url": "http://127.0.0.1:8080/SidePanel.html",
+  "homepage_url": "https://ceyxasm.github.io/meet-add-on-dummy/SidePanel.html",
   "cloud_project_number": "591603684522"
 }
