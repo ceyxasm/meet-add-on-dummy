@@ -1,6 +1,6 @@
 import { meet } from '@googleworkspace/meet-addons/meet.addons';
 
-const CLOUD_PROJECT_NUMBER = 'YOUR_PROJECT_NUMBER'; // Replace with your actual project number
+const CLOUD_PROJECT_NUMBER = '591603684522'; // Replace with your actual project number
 const MAIN_STAGE_URL = 'https://ceyxasm.github.io/meet-add-on-dummy/MainStage.html';
 
 /**
