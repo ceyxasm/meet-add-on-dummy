@@ -52,6 +52,9 @@ export async function setUpAddon() {
           Stack: ${error.stack}
         `;
         resultDiv.style.background = '#f8d7da';
+        console.error('Error accessing microphone:', error.name, error.message );
+        console.error('Stack trace:', error.stack);
+
       }
     });
 }
