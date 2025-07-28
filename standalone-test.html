@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Standalone getUserMedia Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #3367d6;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            display: none;
+        }
+        .success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <h1>Standalone getUserMedia Test</h1>
+    <p>This page tests getUserMedia outside of Google Meet to compare browser behavior.</p>
+    
+    <button id="test-audio">Test Audio Access</button>
+    <button id="test-video">Test Video Access</button>
+    <button id="test-both">Test Audio + Video</button>
+    
+    <div id="result"></div>
+    
+    <script>
+        function showResult(message, isSuccess) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = isSuccess ? 'success' : 'error';
+            resultDiv.innerHTML = message;
+        }
+
+        async function testMediaAccess(constraints, testName) {
+            showResult(`Attempting ${testName}...`, true);
+            
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                
+                const audioTracks = stream.getAudioTracks();
+                const videoTracks = stream.getVideoTracks();
+                
+                showResult(`
+                    <strong>SUCCESS: ${testName}</strong><br>
+                    Stream ID: ${stream.id}<br>
+                    Audio tracks: ${audioTracks.length}<br>
+                    Video tracks: ${videoTracks.length}<br>
+                    ${audioTracks[0] ? `Audio label: ${audioTracks[0].label}<br>` : ''}
+                    ${videoTracks[0] ? `Video label: ${videoTracks[0].label}<br>` : ''}
+                    <em>Browser prompted for permission and user granted access</em>
+                `, true);
+                
+                // Stop all tracks after testing
+                stream.getTracks().forEach(track => track.stop());
+                
+            } catch (error) {
+                showResult(`
+                    <strong>ERROR: ${testName}</strong><br>
+                    Name: ${error.name}<br>
+                    Message: ${error.message}<br>
+                    <br>
+                    <strong>Error Analysis:</strong><br>
+                    ${getErrorAnalysis(error)}
+                `, false);
+                
+                console.error('getUserMedia error:', error);
+            }
+        }
+
+        function getErrorAnalysis(error) {
+            switch(error.name) {
+                case 'NotAllowedError':
+                    return 'User denied permission OR browser blocked due to security policy';
+                case 'NotFoundError':
+                    return 'No media devices found (camera/microphone)';
+                case 'NotSupportedError':
+                    return 'Browser does not support getUserMedia';
+                case 'NotReadableError':
+                    return 'Device is already in use by another application';
+                case 'SecurityError':
+                    return 'HTTPS required or other security restrictions';
+                default:
+                    return 'Unknown error type';
+            }
+        }
+
+        // Event listeners
+        document.getElementById('test-audio').addEventListener('click', () => {
+            testMediaAccess({ audio: true }, 'Audio Access');
+        });
+
+        document.getElementById('test-video').addEventListener('click', () => {
+            testMediaAccess({ video: true }, 'Video Access');
+        });
+
+        document.getElementById('test-both').addEventListener('click', () => {
+            testMediaAccess({ audio: true, video: true }, 'Audio + Video Access');
+        });
+
+        // Display browser info
+        console.log('Browser:', navigator.userAgent);
+        console.log('HTTPS:', location.protocol === 'https:');
+        console.log('MediaDevices supported:', !!navigator.mediaDevices);
+    </script>
+</body>
+</html>
